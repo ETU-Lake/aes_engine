@@ -19,7 +19,7 @@
     * If applicable, the user key is to be second input after `state` (first if it doesn't exist) with the name `key`.
     * If applicable, the clock and reset signals are to be the last input with the names `clk` and `rst` in given order.
     * If applicable, the start input signal will be named `start` and be placed before `clk` if it exists.
-    * If applciable, the end output signal will be named `end` and be the first output.
+    * If applciable, the end output signal will be named `finish` and be the first output.
 * All testbenches are to use the following additional rules:
     * Test modules are to be named `test_[MODULENAME]` where `[MODULENAME]` is the step module being tested.
     * Test modules are to not have any I/O.
