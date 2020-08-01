@@ -1,13 +1,13 @@
 `timescale 1ns / 1ps
 
 //Mesaj sinyalini 8'er bit olarak ayýrýp her 8 bitini s box'a input olarak verilip
-//sbox da linear transformasyona uðrayacak. 
-//Ve sbox'dan gelen output da subbyte ýn outputu olacaktýr. 
-//Yani mesaj sinyalindeki deðerler sbox'dakilerle yer deðiþtirilmiþ olacaktýr.
+//sbox da linear transformasyona ugrayacak. 
+//Ve sbox'dan gelen output da subbyte'in outputu olacaktir. 
+//Yani mesaj sinyalindeki degerler sbox'dakilerle yer degistirilmis olacaktir.
 
 module subbytes(
 input [127:0] state, 
-output [127:0] out  //Bu aþamadan sonra çýktý ShiftRows'a gidecektir
+output [127:0] out  //Bu asamadan sonra cikti ShiftRows'a gidecektir
     );
    // 8 bit yani 1 byte yer deðiþtiriliyor
      sbox s0( .in(state[127:120]),.out(out[127:120]) );
