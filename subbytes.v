@@ -9,7 +9,7 @@ module subbytes(
 input [127:0] state, 
 output [127:0] out  //Bu asamadan sonra cikti ShiftRows'a gidecektir
     );
-   // 8 bit yani 1 byte yer deðiþtiriliyor
+   // 8 bit yani 1 byte yer degistiriliyor
      sbox s0( .in(state[127:120]),.out(out[127:120]) );
      sbox s1( .in(state[119:112]),.out(out[119:112]) );
      sbox s2( .in(state[111:104]),.out(out[111:104]) );
