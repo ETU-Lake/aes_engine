@@ -21,16 +21,6 @@ module test_keyexpansion();
               8'h32, 8'h2D, 8'h62, 8'h79, 8'h74, 8'h65, 8'h20, 8'h6B };
         #2;
         start = 1;
-        /*
-        #2;
-        start = 0;
-        #20;
-        rst = 1;
-        #2;
-        rst = 0;
-        #2;
-        start = 1;
-        */
     end
 
     always begin
