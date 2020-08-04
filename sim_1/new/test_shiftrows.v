@@ -1,22 +1,23 @@
 `timescale 1ns / 1ps
 
 /*
-00	01	02	03		00	01	02	03
-04	05	06	07		05	06	07	04
-08	09	0a	0b		0a	0b	08	09
-0c	0d	0e	0f		0f	0c	0d	0e
+shiftrows oncesi   shiftrows sonrasi
+00	04	08	0c		00	04	08	0c
+01	05	09	0d		05	09	0d  01
+02	06	0a	0e		0a	0e  02	06
+03	07	0b	0f		0f	03	07	0b
 
-Giriþ: 00 01 02 03 04 05 06 07 08 09 0a 0b 0c 0d 0e 0f
-Çýkýþ: 00 01 02 03 05 06 07 04 0a 0b 08 09 0f 0c 0d 0e
+Giris: 00  01  02  03  04  05  06  07  08  09  0a  0b  0c  0d  0e  0f
+Cikis: 00  05  0a  0f  04  09  0e  03  08  0d  02  07  0c  01  06  0b
 */
 
-module tb_shiftrows( );
+module test_shiftrows( );
 
 reg [127:0]IN;
 wire [127:0]OUT;
 
 shiftrows test(
-.in(IN),
+.state(IN),
 .out(OUT)
 );
 
