@@ -48,6 +48,7 @@ module test_addroundkey(
     always #1 clk = ~clk;
     
     integer cnt;
+    integer cnt_next;
     
     addroundkey uut(.state(states[cnt]), // State blok
                    .key(key), // Expanded key
@@ -63,18 +64,25 @@ module test_addroundkey(
     initial
     begin
         cnt = 0;
+        cnt_next = 0;
         states[0] = { 8'h0, 8'h1, 8'h2, 8'h3, 8'h4, 8'h5, 8'h6, 8'h7, 8'h8, 8'h9, 8'hA, 8'hB, 8'hC, 8'hD, 8'hE, 8'hF };
         states[1] = { 8'h3, 8'h2, 8'h1, 8'hF, 8'h8, 8'h8, 8'h6, 8'h5, 8'h6, 8'h9, 8'hA, 8'hB, 8'hC, 8'hA, 8'hF, 8'hC };
         states[2] = { 8'h1, 8'h6, 8'h3, 8'h2, 8'h6, 8'hF, 8'h3, 8'h2, 8'h3, 8'h8, 8'h5, 8'h1, 8'h5, 8'h3, 8'hA, 8'hB };
     end
-                   
+    always@*
+    begin
+            if (finish)
+            begin 
+                cnt_next = cnt + 1;
+            end 
+    end
+    
     always@(posedge clk)
     begin
+        if (finish && cnt == 3) $finish;
         if (start == 0) start <= 1;
-        if (finish && cnt < 2)
-        begin 
-            cnt <= cnt + 1;
-        end 
+
+        cnt <= cnt_next;
         
         if (cnt == 0 && finish && result == { 8'h37, 8'hF9, 8'h4, 8'h53, 
                         8'h18, 8'h37, 8'hE8, 8'h55, 
@@ -82,6 +90,6 @@ module test_addroundkey(
                         8'h75, 8'hA2, 8'h94, 8'h4E })
         begin
             $display ("OK");
-        end
+        end    
     end
 endmodule
