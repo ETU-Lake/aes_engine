@@ -26,7 +26,8 @@ module test_addroundkey(
     
     reg clk = 1'b0; 
     reg rst = 1'b0;
-    reg [127:0] state = { 8'h0, 8'h1, 8'h2, 8'h3, 8'h4, 8'h5, 8'h6, 8'h7, 8'h8, 8'h9, 8'hA, 8'hB, 8'hC, 8'hD, 8'hE, 8'hF };
+    reg start = 1'b0;
+    reg [127:0] states [0:2];
     reg [1407:0] key = { 8'h65, 8'h78, 8'h70, 8'h61, 8'h6E, 8'h64, 8'h20, 8'h33, 8'h32, 8'h2D, 8'h62, 8'h79, 8'h74, 8'h65, 
                          8'h20, 8'h6B, 8'h29, 8'hCF, 8'hF, 8'hF3, 8'h47, 8'hAB, 8'h2F, 8'hC0, 8'h75, 8'h86, 8'h4D, 8'hB9, 
                          8'h1, 8'hE3, 8'h6D, 8'hD2, 8'h3A, 8'hF3, 8'hBA, 8'h8F, 8'h7D, 8'h58, 8'h95, 8'h4F, 8'h8, 8'hDE, 
@@ -46,25 +47,41 @@ module test_addroundkey(
     
     always #1 clk = ~clk;
     
-    addroundkey uut(.state(state), // State blok
+    integer cnt;
+    
+    addroundkey uut(.state(states[cnt]), // State blok
                    .key(key), // Expanded key
                    .roundnumber(roundnumber), // Current round
-                   .start(1), // Start signal
+                   .start(start), // Start signal
                    .clk(clk), // Clock input
                    .rst(rst), // Reset input
                    .result(result), // Output modified state
                    .finish(finish)
                    );
+     
+     
+    initial
+    begin
+        cnt = 0;
+        states[0] = { 8'h0, 8'h1, 8'h2, 8'h3, 8'h4, 8'h5, 8'h6, 8'h7, 8'h8, 8'h9, 8'hA, 8'hB, 8'hC, 8'hD, 8'hE, 8'hF };
+        states[1] = { 8'h3, 8'h2, 8'h1, 8'hF, 8'h8, 8'h8, 8'h6, 8'h5, 8'h6, 8'h9, 8'hA, 8'hB, 8'hC, 8'hA, 8'hF, 8'hC };
+        states[2] = { 8'h1, 8'h6, 8'h3, 8'h2, 8'h6, 8'hF, 8'h3, 8'h2, 8'h3, 8'h8, 8'h5, 8'h1, 8'h5, 8'h3, 8'hA, 8'hB };
+    end
                    
     always@(posedge clk)
     begin
-        if (result == { 8'h37, 8'hF9, 8'h4, 8'h53, 
+        if (start == 0) start <= 1;
+        if (finish && cnt < 2)
+        begin 
+            cnt <= cnt + 1;
+        end 
+        
+        if (cnt == 0 && finish && result == { 8'h37, 8'hF9, 8'h4, 8'h53, 
                         8'h18, 8'h37, 8'hE8, 8'h55, 
                         8'h53, 8'h51, 8'hCD, 8'h6C, 
                         8'h75, 8'hA2, 8'h94, 8'h4E })
         begin
             $display ("OK");
-            $finish;
         end
     end
 endmodule

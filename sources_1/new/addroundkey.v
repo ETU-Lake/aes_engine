@@ -31,16 +31,17 @@ module addroundkey(input [127:0] state, // State blok
     reg [127:0] result_prev;
     
     reg finish_prev = 1'b0;
-    reg run = 1'b0;
+    reg ready = 1'b1;
     
     always@* 
     begin
-        if (start && ~run)
+        if (start && ready)
         begin
-            run = ~run;
+            ready = ~ready;
             for (i = 0; i < 128; i = i + 1) 
                 result_prev[i] = state[i] ^ key[roundnumber * 128 + i];
-            finish_prev = 1'b1;      
+            finish_prev = 1'b1;
+            ready = ~ready;      
         end
         else
             finish_prev = 1'b0;
