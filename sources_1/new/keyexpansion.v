@@ -1,11 +1,6 @@
 `timescale 1ns / 1ps
 
-/*
- * QUIRKS:
- * Reset signal overrides start when both are given.
- */
-
-// TODO: better rcon handling
+/* Quirk: Reset signal overrides start. */
 
 module keyexpansion(
     input [127:0] key,
@@ -13,7 +8,6 @@ module keyexpansion(
     input clk,
     input rst,
     output reg [1407:0] out,
-    output reg num [3:0],
     output reg finish
 );
     reg [10:0] i, j, k;
@@ -22,10 +16,10 @@ module keyexpansion(
 
     wire [7:0] sboxout[3:0];
 
-    sbox box1 (.in(sboxin[0]), .out(sboxout[0]));
-    sbox box2 (.in(sboxin[1]), .out(sboxout[1]));
-    sbox box3 (.in(sboxin[2]), .out(sboxout[2]));
-    sbox box4 (.in(sboxin[3]), .out(sboxout[3]));
+    sbox tmp1 (.in(sboxin[0]), .out(sboxout[0]));
+    sbox tmp2 (.in(sboxin[1]), .out(sboxout[1]));
+    sbox tmp3 (.in(sboxin[2]), .out(sboxout[2]));
+    sbox tmp4 (.in(sboxin[3]), .out(sboxout[3]));
 
     initial begin
         run <= 1'b0;
@@ -33,27 +27,21 @@ module keyexpansion(
         i <= 10'd4;
         rcon <= 8'd0;
         out = 1048'd0;
-        num <= 4'd0;
     end
 
     /*
      * This can run in both posedge and negedge. Heavy sbox operations are
      * seperated across 2 cycles.
      */
-    always @ (posedge clk) begin
-    end
-
     always @ (clk) begin
         if (rst) begin
             run <= 1'b0;
-            finish <= 1'b0;
             i <= 10'd4;
             rcon <= 8'd0;
-            out <= 1048'd0;
-            num <= 4'd0;
         end else if (start && ~run) begin
-            out[1407-:128] <= key;
-            run <= ~run;
+            out = 1048'd0;
+            out[1407-:128] = key;
+            run = ~run;
         end
 
         if (run) begin
@@ -72,16 +60,16 @@ module keyexpansion(
                         sboxin[2] = tmp[3];
                         sboxin[3] = tmp[0];
                         case (i/4)
-                            8'd0:  rcon = 8'h8D;
-                            8'd1:  rcon = 8'h01;
-                            8'd2:  rcon = 8'h02;
-                            8'd3:  rcon = 8'h04;
-                            8'd4:  rcon = 8'h08;
-                            8'd5:  rcon = 8'h10;
-                            8'd6:  rcon = 8'h20;
-                            8'd7:  rcon = 8'h40;
-                            8'd8:  rcon = 8'h80;
-                            8'd9:  rcon = 8'h1B;
+                            8'd0: rcon = 8'h8D;
+                            8'd1: rcon = 8'h01;
+                            8'd2: rcon = 8'h02;
+                            8'd3: rcon = 8'h04;
+                            8'd4: rcon = 8'h08;
+                            8'd5: rcon = 8'h10;
+                            8'd6: rcon = 8'h20;
+                            8'd7: rcon = 8'h40;
+                            8'd8: rcon = 8'h80;
+                            8'd9: rcon = 8'h1B;
                             8'd10: rcon = 8'h36;
                         endcase
                     end else begin
@@ -95,7 +83,6 @@ module keyexpansion(
                     end
                 end
 
-                /* Non-sbox step OR end of sbox step. */
                 if (rcon == 0) begin
                     j = i*4;
                     k = (i-4)*4;
@@ -112,7 +99,4 @@ module keyexpansion(
         end
     end
 
-    always @ (posedge finish) begin
-        $display("%h", out);
-    end
 endmodule

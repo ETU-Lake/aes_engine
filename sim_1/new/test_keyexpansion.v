@@ -17,7 +17,7 @@ module test_keyexpansion();
 
     initial begin
         clk = 0; rst = 0; start = 0;
-        in = {8'h65, 8'h78, 8'h70, 8'h61, 8'h6E, 8'h64, 8'h20, 8'h33, 
+        in = {8'h65, 8'h78, 8'h70, 8'h61, 8'h6E, 8'h64, 8'h20, 8'h33,
               8'h32, 8'h2D, 8'h62, 8'h79, 8'h74, 8'h65, 8'h20, 8'h6B };
         #2;
         start = 1;
