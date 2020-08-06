@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
 
-module mcol(
+module MixColumns(
   input wire clk,
   input wire[127:0] initial_state,
   output reg[127:0] output_state
