@@ -25,10 +25,11 @@ module lastround(
         input rst,
         input [1407:0] key,
         input [127:0] state,
-        output reg [127:0] out
+        output [127:0] out
     );
     
-    reg finish;
+    wire finish;
+    
     wire [127:0] sb_out;
     wire [127:0] shrw_out;
 

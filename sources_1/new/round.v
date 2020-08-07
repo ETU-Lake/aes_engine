@@ -26,18 +26,17 @@ module round(
         input [1407:0] key,
         input [127:0] state,
         input [3:0] roundnumber,
-        output reg [127:0] out
+        output [127:0] out
     );
     
-    reg finish;
+    wire finish;
     wire [127:0] sb_out;
     wire [127:0] shrw_out;
     wire [127:0] mixcl_out;
+    wire [127:0] addrk_out;
 
     subbytes sb(.state(state), .out(sb_out));
     shiftrows shrw(.state(sb_out), .out(shrw_out));
     mixcolumns mixcl (.state(shrw_out), .clk(clk), .out(mixcl_out));
-    addroundkey addrk(.state(mixcl_out), .key(key), .roundnumber(roundnumber), .start(1), .clk(clk), .rst(rst), .out(out), .finish(finish));
-
-    
+    addroundkey addrk(.state(mixcl_out), .key(key), .roundnumber(roundnumber), .start(1), .clk(clk), .rst(rst), .out(out), .finish(finish));    
 endmodule

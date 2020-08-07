@@ -32,12 +32,12 @@ module addroundkey(input [127:0] state, // State blok
     begin
         if (rst)
         begin
-            result <= 0;
+            out <= 0;
             finish <= 0;
             finish_next <= 0;
         end else
         begin
-            result <= result_next;
+            out <= result_next;
             finish <= finish_next;
         end
     end

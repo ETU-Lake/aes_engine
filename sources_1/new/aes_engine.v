@@ -20,12 +20,12 @@ module aes_engine(
   
   genvar i;
   
-  reg [1407:0] expanded;
-  reg [127:0] states[0:10];
-  reg finish;
+  wire [1407:0] expanded;
+  wire [127:0] states[0:10];
+  wire finish1, finish2;
 
-  keyexpansion expander(.key(anahtar), .start(1), .clk(clk), .rst(rst), .out(expanded), .finish(finish));
-  addroundkey addrk(.state(blok), .key(expanded), .roundnumber(0), .start(1), .clk(clk), .rst(rst), .out(states[0]), .finish(finish));
+  keyexpansion expander(.key(anahtar), .start(1), .clk(clk), .rst(rst), .out(expanded), .finish(finish1));
+  addroundkey addrk(.state(blok), .key(expanded), .roundnumber(0), .start(1), .clk(clk), .rst(rst), .out(states[0]), .finish(finish2));
 
   
   generate for (i = 1; i < 10; i = i + 1)

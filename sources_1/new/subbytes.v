@@ -5,7 +5,7 @@
 //Ve sbox'dan gelen output da subbyte'in outputu olacaktir.
 //Yani mesaj sinyalindeki degerler sbox'dakilerle yer degistirilmis olacaktir.
 
-module subbytes(
+    module subbytes(
     input [127:0] state,
     output [127:0] out  //Bu asamadan sonra cikti ShiftRows'a gidecektir
 );
