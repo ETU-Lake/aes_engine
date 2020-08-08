@@ -38,8 +38,8 @@ module keyexpansion(
             run <= 1'b0;
             i <= 10'd4;
             rcon <= 8'd0;
-        end else if (start && ~run) begin
             out = 1048'd0;
+        end else if (start && ~run && ~finish) begin
             out[1407-:128] = key;
             run = ~run;
         end
@@ -60,16 +60,16 @@ module keyexpansion(
                         sboxin[2] = tmp[3];
                         sboxin[3] = tmp[0];
                         case (i/4)
-                            8'd0: rcon = 8'h8D;
-                            8'd1: rcon = 8'h01;
-                            8'd2: rcon = 8'h02;
-                            8'd3: rcon = 8'h04;
-                            8'd4: rcon = 8'h08;
-                            8'd5: rcon = 8'h10;
-                            8'd6: rcon = 8'h20;
-                            8'd7: rcon = 8'h40;
-                            8'd8: rcon = 8'h80;
-                            8'd9: rcon = 8'h1B;
+                            8'd0:  rcon = 8'h8D;
+                            8'd1:  rcon = 8'h01;
+                            8'd2:  rcon = 8'h02;
+                            8'd3:  rcon = 8'h04;
+                            8'd4:  rcon = 8'h08;
+                            8'd5:  rcon = 8'h10;
+                            8'd6:  rcon = 8'h20;
+                            8'd7:  rcon = 8'h40;
+                            8'd8:  rcon = 8'h80;
+                            8'd9:  rcon = 8'h1B;
                             8'd10: rcon = 8'h36;
                         endcase
                     end else begin
@@ -86,7 +86,7 @@ module keyexpansion(
                 if (rcon == 0) begin
                     j = i*4;
                     k = (i-4)*4;
-                    out[1407-8*j-:8]       = out[1407-8*k-:8] ^ tmp[0];
+                    out[1407-8*j-:8]       = out[1407-8*k-:8]       ^ tmp[0];
                     out[1407-(8*(j+1))-:8] = out[1407-(8*(k+1))-:8] ^ tmp[1];
                     out[1407-(8*(j+2))-:8] = out[1407-(8*(k+2))-:8] ^ tmp[2];
                     out[1407-(8*(j+3))-:8] = out[1407-(8*(k+3))-:8] ^ tmp[3];

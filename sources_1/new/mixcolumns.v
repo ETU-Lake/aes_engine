@@ -2,13 +2,12 @@
 
 module mixcolumns(
     input [127:0] state,
-    input clk,
-    output reg[127:0] out
+    output reg [127:0] out
 );
     genvar i;
     reg[31:0] enc_row[3:0];
 
-    always @ (posedge clk) begin
+    always @ * begin
         //Her yeni saat sinyalinde enc_rowdaki degerleri kullanarak output olusturulur.
         out = {enc_row[3], enc_row[2], enc_row[1], enc_row[0]};
     end
