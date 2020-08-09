@@ -15,12 +15,13 @@ module aes_engine (
     wire [127:0] states [0:10];
     wire key_expanded;
     reg [127:0] first;
-    reg [3:0] ctr [9:0];
+    reg [3:0] ctr [10:0];
     reg run, valid;
 
     assign states[0] = first;
     assign hazir = key_expanded && ((ctr[0] == 4'd0) || (ctr[1] == 4'd0) || (ctr[2] == 4'd0) || (ctr[3] == 4'd0) || (ctr[4] == 4'd0) ||
-                                    (ctr[5] == 4'd0) || (ctr[6] == 4'd0) || (ctr[7] == 4'd0) || (ctr[8] == 4'd0) || (ctr[9] == 4'd0) );
+                                    (ctr[5] == 4'd0) || (ctr[6] == 4'd0) || (ctr[7] == 4'd0) || (ctr[8] == 4'd0) || (ctr[9] == 4'd0) ||
+                                    (ctr[10] == 4'd0));
     assign sifre = states[10];
     assign c_gecerli = valid;
 
@@ -49,6 +50,7 @@ module aes_engine (
         ctr[7] <= 4'd0;
         ctr[8] <= 4'd0;
         ctr[9] <= 4'd0;
+        ctr[10] <= 4'd0;
     end
 
     always @ (posedge clk) begin
@@ -64,6 +66,7 @@ module aes_engine (
             ctr[7] <= 4'd0;
             ctr[8] <= 4'd0;
             ctr[9] <= 4'd0;
+            ctr[10] <= 4'd0;
             first <= 128'd0;
         end else if (key_expanded && g_gecerli) begin
             run <= 1'b1;
@@ -71,7 +74,8 @@ module aes_engine (
 
         if (valid) begin
             if (~(ctr[0] == 4'd10 || ctr[1] == 4'd10 || ctr[2] == 4'd10 || ctr[3] == 4'd10 || ctr[4] == 4'd10 ||
-                  ctr[5] == 4'd10 || ctr[6] == 4'd10 || ctr[7] == 4'd10 || ctr[8] == 4'd10 || ctr[9] == 4'd10 )) begin
+                  ctr[5] == 4'd10 || ctr[6] == 4'd10 || ctr[7] == 4'd10 || ctr[8] == 4'd10 || ctr[9] == 4'd10 ||
+                  ctr[10] == 4'd10)) begin
                 valid = ~valid;
             end
         end
@@ -110,12 +114,16 @@ module aes_engine (
             end else if (ctr[9] == 4'd0) begin
                 first = blok ^ expanded[1407-:128];
                 ctr[9] <= 4'd1;
+            end else if (ctr[10] == 4'd0) begin
+                first = blok ^ expanded[1407-:128];
+                ctr[10] <= 4'd1;
             end
         end
 
         if (run) begin
             if (ctr[0] == 4'd10) begin
                 valid <= 1'b1;
+                ctr[0] <= 1'b0;
             end else if (ctr[1] == 4'd10) begin
                 valid <= 1'b1;
                 ctr[1] <= 4'd0;
@@ -143,6 +151,9 @@ module aes_engine (
             end else if (ctr[9] == 4'd10) begin
                 valid <= 1'b1;
                 ctr[9] <= 4'd0;
+            end else if (ctr[10] == 4'd10) begin
+                valid <= 1'b1;
+                ctr[10] <= 4'd0;
             end
 
             if (~(ctr[0] == 4'd0)) begin
@@ -155,6 +166,10 @@ module aes_engine (
 
             if (~(ctr[2] == 4'd0)) begin
                 ctr[2] = ctr[2] + 4'd1;
+            end
+
+            if (~(ctr[3] == 4'd0)) begin
+                ctr[3] = ctr[3] + 4'd1;
             end
 
             if (~(ctr[4] == 4'd0)) begin
@@ -179,6 +194,10 @@ module aes_engine (
 
             if (~(ctr[9] == 4'd0)) begin
                 ctr[9] = ctr[9] + 4'd1;
+            end
+
+            if (~(ctr[10] == 4'd0)) begin
+                ctr[10] = ctr[10] + 4'd1;
             end
         end
     end
