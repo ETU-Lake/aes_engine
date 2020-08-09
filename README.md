@@ -26,4 +26,4 @@
 * Because of the project requirements, the higher level module is exempt from these conventions except the testbench convention.
 
 ## License
-The license of this repository will be determined later by the vote of the ETU Lake members with any duty.
+This repository is licensed under BSD-3-Clause. Refer to LICENSE.md for more details.
