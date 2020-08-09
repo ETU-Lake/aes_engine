@@ -68,12 +68,12 @@
 module clk_wiz_clk_wiz 
 
  (// Clock in ports
-  input         clk_in1,
   // Clock out ports
   output        clk_out1,
   // Status and control signals
   input         reset,
-  output        locked
+  output        locked,
+  input         clk_in1
  );
   // Input buffering
   //------------------------------------
@@ -82,6 +82,8 @@ wire clk_in2_clk_wiz;
   IBUF clkin1_ibufg
    (.O (clk_in1_clk_wiz),
     .I (clk_in1));
+
+
 
 
   // Clocking PRIMITIVE
@@ -133,7 +135,7 @@ wire clk_in2_clk_wiz;
     .CLKOUT0_PHASE        (0.000),
     .CLKOUT0_DUTY_CYCLE   (0.500),
     .CLKOUT0_USE_FINE_PS  ("FALSE"),
-    .CLKIN1_PERIOD        (10.0))
+    .CLKIN1_PERIOD        (10.000))
   mmcm_adv_inst
     // Output clocks
    (
@@ -175,7 +177,6 @@ wire clk_in2_clk_wiz;
     .CLKFBSTOPPED        (clkfbstopped_unused),
     .PWRDWN              (1'b0),
     .RST                 (reset_high));
-
   assign reset_high = reset; 
 
   assign locked = locked_int;
@@ -187,6 +188,9 @@ wire clk_in2_clk_wiz;
   BUFG clkf_buf
    (.O (clkfbout_buf_clk_wiz),
     .I (clkfbout_clk_wiz));
+
+
+
 
 
 

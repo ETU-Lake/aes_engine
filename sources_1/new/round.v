@@ -24,9 +24,10 @@ module round(
         input clk,
         input rst,
         input [1407:0] key,
+        input start,
         input [127:0] state,
         input [3:0] roundnumber,
-        output [127:0] out
+        output reg [127:0] out
     );
     
     wire finish;
@@ -38,5 +39,10 @@ module round(
     subbytes sb(.state(state), .out(sb_out));
     shiftrows shrw(.state(sb_out), .out(shrw_out));
     mixcolumns mixcl (.state(shrw_out), .clk(clk), .out(mixcl_out));
-    addroundkey addrk(.state(mixcl_out), .key(key), .roundnumber(roundnumber), .start(1), .clk(clk), .rst(rst), .out(out), .finish(finish));    
+    addroundkey addrk(.state(mixcl_out), .key(key), .roundnumber(roundnumber), .start(1), .clk(clk), .rst(rst), .out(addrk_out), .finish(finish));
+    
+    always@(posedge clk)
+    begin
+        if (state && start) out <= addrk_out;
+    end
 endmodule

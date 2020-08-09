@@ -1,10 +1,10 @@
--- Copyright 1986-2016 Xilinx, Inc. All Rights Reserved.
+-- Copyright 1986-2018 Xilinx, Inc. All Rights Reserved.
 -- --------------------------------------------------------------------------------
--- Tool Version: Vivado v.2016.2 (win64) Build 1577090 Thu Jun  2 16:32:40 MDT 2016
--- Date        : Wed Jul 29 17:52:26 2020
--- Host        : DESKTOP-LT3SA69 running 64-bit major release  (build 9200)
+-- Tool Version: Vivado v.2018.3 (lin64) Build 2405991 Thu Dec  6 23:36:41 MST 2018
+-- Date        : Sat Aug  8 17:02:59 2020
+-- Host        : pop-os running 64-bit Pop!_OS 20.04 LTS
 -- Command     : write_vhdl -force -mode funcsim
---               C:/Users/aolgu/Downloads/cevreleyici_proje/aes_engine_wrapper/aes_engine_wrapper.srcs/sources_1/ip/clk_wiz/clk_wiz_sim_netlist.vhdl
+--               /home/ssayin/aes_engine_wrapper/aes_engine_wrapper.srcs/sources_1/ip/clk_wiz/clk_wiz_sim_netlist.vhdl
 -- Design      : clk_wiz
 -- Purpose     : This VHDL netlist is a functional simulation representation of the design and should not be modified or
 --               synthesized. This netlist cannot be used for SDF annotated simulation.
@@ -16,10 +16,10 @@ library UNISIM;
 use UNISIM.VCOMPONENTS.ALL;
 entity clk_wiz_clk_wiz_clk_wiz is
   port (
-    clk_in1 : in STD_LOGIC;
     clk_out1 : out STD_LOGIC;
     reset : in STD_LOGIC;
-    locked : out STD_LOGIC
+    locked : out STD_LOGIC;
+    clk_in1 : in STD_LOGIC
   );
   attribute ORIG_REF_NAME : string;
   attribute ORIG_REF_NAME of clk_wiz_clk_wiz_clk_wiz : entity is "clk_wiz_clk_wiz";
@@ -169,10 +169,10 @@ library UNISIM;
 use UNISIM.VCOMPONENTS.ALL;
 entity clk_wiz is
   port (
-    clk_in1 : in STD_LOGIC;
     clk_out1 : out STD_LOGIC;
     reset : in STD_LOGIC;
-    locked : out STD_LOGIC
+    locked : out STD_LOGIC;
+    clk_in1 : in STD_LOGIC
   );
   attribute NotValidForBitStream : boolean;
   attribute NotValidForBitStream of clk_wiz : entity is true;

@@ -15,9 +15,9 @@ module addroundkey(input [127:0] state, // State blok
     reg finish_next = 1'b0;
     reg ready = 1'b1;
 
-    always@*
+    always@ (state or start or ready)
     begin
-        if (start && ready)
+        if (start && ready && ~finish_next)
         begin
             finish_next = 0;
             ready = ~ready;
@@ -25,10 +25,11 @@ module addroundkey(input [127:0] state, // State blok
                 result_next[i] = state[i] ^ key[roundnumber * 128 + i];
             ready = ~ready;
             finish_next = 1;
+            out = result_next;
         end
     end
 
-    always@(posedge clk)
+    /*always@(posedge clk)
     begin
         if (rst)
         begin
@@ -40,5 +41,5 @@ module addroundkey(input [127:0] state, // State blok
             out <= result_next;
             finish <= finish_next;
         end
-    end
+    end*/
 endmodule

@@ -1,10 +1,10 @@
-// Copyright 1986-2016 Xilinx, Inc. All Rights Reserved.
+// Copyright 1986-2018 Xilinx, Inc. All Rights Reserved.
 // --------------------------------------------------------------------------------
-// Tool Version: Vivado v.2016.2 (win64) Build 1577090 Thu Jun  2 16:32:40 MDT 2016
-// Date        : Wed Jul 29 17:52:26 2020
-// Host        : DESKTOP-LT3SA69 running 64-bit major release  (build 9200)
+// Tool Version: Vivado v.2018.3 (lin64) Build 2405991 Thu Dec  6 23:36:41 MST 2018
+// Date        : Sat Aug  8 17:02:59 2020
+// Host        : pop-os running 64-bit Pop!_OS 20.04 LTS
 // Command     : write_verilog -force -mode funcsim
-//               C:/Users/aolgu/Downloads/cevreleyici_proje/aes_engine_wrapper/aes_engine_wrapper.srcs/sources_1/ip/clk_wiz/clk_wiz_sim_netlist.v
+//               /home/ssayin/aes_engine_wrapper/aes_engine_wrapper.srcs/sources_1/ip/clk_wiz/clk_wiz_sim_netlist.v
 // Design      : clk_wiz
 // Purpose     : This verilog netlist is a functional simulation representation of the design and should not be modified
 //               or synthesized. This netlist cannot be used for SDF annotated simulation.
@@ -14,14 +14,14 @@
 
 (* NotValidForBitStream *)
 module clk_wiz
-   (clk_in1,
-    clk_out1,
+   (clk_out1,
     reset,
-    locked);
-  input clk_in1;
+    locked,
+    clk_in1);
   output clk_out1;
   input reset;
   output locked;
+  input clk_in1;
 
   (* IBUF_LOW_PWR *) wire clk_in1;
   wire clk_out1;
@@ -37,14 +37,14 @@ endmodule
 
 (* ORIG_REF_NAME = "clk_wiz_clk_wiz" *) 
 module clk_wiz_clk_wiz_clk_wiz
-   (clk_in1,
-    clk_out1,
+   (clk_out1,
     reset,
-    locked);
-  input clk_in1;
+    locked,
+    clk_in1);
   output clk_out1;
   input reset;
   output locked;
+  input clk_in1;
 
   wire clk_in1;
   wire clk_in1_clk_wiz;
@@ -223,8 +223,8 @@ module glbl ();
     reg JTAG_USER_TDO3_GLBL = 1'bz;
     reg JTAG_USER_TDO4_GLBL = 1'bz;
 
-    assign (weak1, weak0) GSR = GSR_int;
-    assign (weak1, weak0) GTS = GTS_int;
+    assign (strong1, weak0) GSR = GSR_int;
+    assign (strong1, weak0) GTS = GTS_int;
     assign (weak1, weak0) PRLD = PRLD_int;
 
     initial begin
