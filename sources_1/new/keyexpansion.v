@@ -2,7 +2,7 @@
 
 /* Quirk: Reset signal overrides start. */
 
-module keyexpansion(
+module keyexpansion (
     input [127:0] key,
     input start,
     input clk,
@@ -101,5 +101,4 @@ module keyexpansion(
             end
         end
     end
-
 endmodule

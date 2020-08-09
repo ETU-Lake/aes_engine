@@ -15,10 +15,12 @@ module round (
 
     assign final = mixcolumns_out ^ key;
 
+    always @ (rst) begin
+        out <= 128'd0;
+    end
+
     always @ (posedge clk) begin
-        if (rst) begin
-            out <= 128'd0;
-        end else begin
+        if (~rst) begin
             out <= final;
         end
     end

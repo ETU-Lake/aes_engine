@@ -14,11 +14,11 @@ module aes_engine (
     wire [1407:0] expanded;
     wire [127:0] states [0:10];
     wire key_expanded;
-    reg [3:0] ctr [1:0];
+    reg [3:0] ctr;
     reg run, valid;
 
     assign states[0] = blok ^ expanded[1407-:128];
-    assign hazir = run;
+    assign hazir = key_expanded;
     assign sifre = states[10];
     assign c_gecerli = valid;
 
@@ -37,42 +37,33 @@ module aes_engine (
     initial begin
         run = 1'b0;
         valid = 1'b0;
-        ctr[0] = 4'd0;
-        ctr[1] = 4'd0;
+        ctr = 4'd0;
     end
 
     always @ (posedge clk) begin
         if (rst) begin
             run <= 1'b0;
-            ctr[0] <= 4'd0;
-            ctr[1] <= 4'd0;
+            ctr <= 4'd0;
         end else if (key_expanded) begin
-            run = 1'b1;
+            run <= 1'b1;
         end
 
-        if (run) begin
+        if (valid) begin
             valid = 1'b0;
-            $display("%d %d", ctr[0], ctr[1]);
-            if (ctr[0] == 4'd10) begin
-                valid <= 1'b1;
-                ctr[0] <= 4'd0;
-            end else if (~(ctr[0] == 4'd0)) begin
-                ctr[0] = ctr[0] + 4'd1;
-            end
+        end
 
-            if (ctr[1] == 4'd10) begin
-                valid <= 1'b1;
-                ctr[1] <= 4'd0;
-            end else if (~(ctr[1] == 4'd0)) begin
-                ctr[1] = ctr[1] + 4'd1;
+        if (g_gecerli && hazir) begin
+            if (ctr == 4'd0) begin
+                ctr = 4'd1;
             end
-
-            if (g_gecerli && hazir) begin
-                if (ctr[0] == 4'd0) begin
-                    ctr[0] = 4'd1;
-                end else if (ctr[1] == 4'd0) begin
-                    ctr[1] = 4'd1;
-                end
+        end
+        if (run) begin
+            $display("%d" , ctr);
+            if (ctr == 4'd10) begin
+                valid <= 1'b1;
+                ctr <= 4'd0;
+            end else if (~(ctr == 4'd0)) begin
+                ctr = ctr + 4'd1;
             end
         end
     end
