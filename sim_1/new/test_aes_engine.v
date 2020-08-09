@@ -18,8 +18,7 @@ module test_aes_engine(
   reg clk = 1'b0;
   reg rst = 1'b0;
 
-    aes_engine aes_engine_i
-  (
+  aes_engine aes_engine_i (
     .clk(clk),
     .rst(rst),
     .anahtar(anahtar),
@@ -31,9 +30,15 @@ module test_aes_engine(
     .c_gecerli(c_gecerli)
   );
 
-  always
-  begin
-    clk = ~clk; #1;
+  initial begin
+      #40;
+      rst = 1'b1; #2; rst = 1'b0;
+      #80;
+      rst = 1'b1; #2; rst = 1'b0;
+  end
+
+  always begin
+      clk = ~clk; #1;
   end
 
 endmodule
