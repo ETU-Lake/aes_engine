@@ -4,17 +4,13 @@ module test_aes_engine(
 
     );
 
-  wire[127:0] anahtar = {8'h65, 8'h78, 8'h70, 8'h61, 8'h6E, 8'h64, 8'h20, 8'h33,
-              8'h32, 8'h2D, 8'h62, 8'h79, 8'h74, 8'h65, 8'h20, 8'h6B };
-
   wire hazir;
   wire c_gecerli;
   (*dont_touch = "true"*) reg [6:0] c_count;
   (*dont_touch = "true"*) reg [127:0] sifre_r;
   wire [127:0] sifre;
 
-  reg[127:0] blok = { 8'h71, 8'h77, 8'h65, 8'h72, 8'h74, 8'h79, 8'h75, 8'h69, 8'h6f, 8'h70, 8'h61, 8'h73, 8'h64, 8'h66, 8'h67, 8'h68 };
-
+  reg [127:0] blok, anahtar;
   reg clk = 1'b0;
   reg rst = 1'b0;
 
@@ -31,7 +27,11 @@ module test_aes_engine(
   );
 
   initial begin
+      blok = 128'h0;
+      anahtar = 128'd1;
       #40;
+      anahtar = {8'h65, 8'h78, 8'h70, 8'h61, 8'h6E, 8'h64, 8'h20, 8'h33, 8'h32, 8'h2D, 8'h62, 8'h79, 8'h74, 8'h65, 8'h20, 8'h6B };
+      blok = { 8'h71, 8'h77, 8'h65, 8'h72, 8'h74, 8'h79, 8'h75, 8'h69, 8'h6f, 8'h70, 8'h61, 8'h73, 8'h64, 8'h66, 8'h67, 8'h68 };
       rst = 1'b1; #2; rst = 1'b0;
       #80;
       rst = 1'b1; #2; rst = 1'b0;
