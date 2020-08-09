@@ -34,7 +34,7 @@ module test_aes_engine();
   end
 
   always @ (posedge hazir) begin
-          #2; g_gecerli = 1'b1; #2; g_gecerli = 1'b0;
+          #2; g_gecerli = 1'b1; #8; g_gecerli = 1'b0;
   end
 
   always begin

@@ -20,8 +20,6 @@ module round (
     end
 
     always @ (posedge clk) begin
-        if (~rst) begin
-            out <= final;
-        end
+        out <= final;
     end
 endmodule

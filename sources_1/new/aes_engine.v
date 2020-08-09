@@ -18,7 +18,7 @@ module aes_engine (
     reg run, valid;
 
     assign states[0] = blok ^ expanded[1407-:128];
-    assign hazir = key_expanded;
+    assign hazir = key_expanded & (ctr == 4'd0);
     assign sifre = states[10];
     assign c_gecerli = valid;
 

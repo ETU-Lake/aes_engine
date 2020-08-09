@@ -20,11 +20,7 @@ module lastround (
         out <= 128'd0;
     end
 
-    always @ (posedge clk)
-        if (~rst) begin
-            out <= shiftrows_out ^ key;
-        end
-    begin
-
+    always @ (posedge clk) begin
+        out <= shiftrows_out ^ key;
     end
 endmodule
