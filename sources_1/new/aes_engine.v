@@ -19,7 +19,6 @@ module aes_engine(
   wire finish1, finish2;
  
   assign hazir = finish1;
-  assign states[0] = blok;
   assign sifre = states[10];
   assign c_gecerli = g_gecerli;
   

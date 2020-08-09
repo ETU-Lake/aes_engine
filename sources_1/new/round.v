@@ -39,10 +39,10 @@ module round(
     subbytes sb(.state(state), .out(sb_out));
     shiftrows shrw(.state(sb_out), .out(shrw_out));
     mixcolumns mixcl (.state(shrw_out), .clk(clk), .out(mixcl_out));
-    addroundkey addrk(.state(mixcl_out), .key(key), .roundnumber(roundnumber), .start(1), .clk(clk), .rst(rst), .out(addrk_out), .finish(finish));
+    addroundkey addrk(.state(mixcl_out), .key(key), .roundnumber(roundnumber), .start(start), .clk(clk), .rst(rst), .out(addrk_out), .finish(finish));
     
     always@(posedge clk)
     begin
-        if (state && start) out <= addrk_out;
+        if (state) out <= addrk_out;
     end
 endmodule

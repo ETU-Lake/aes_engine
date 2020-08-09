@@ -24,18 +24,16 @@ module test_aes_engine(
 
     );
      
-  wire[127:0] anahtar = {{64{1'b1}},{64{1'b0}}};
+  wire[127:0] anahtar = {8'h65, 8'h78, 8'h70, 8'h61, 8'h6E, 8'h64, 8'h20, 8'h33,
+              8'h32, 8'h2D, 8'h62, 8'h79, 8'h74, 8'h65, 8'h20, 8'h6B };
 
   wire hazir;
   wire c_gecerli;
   (*dont_touch = "true"*) reg [6:0] c_count;
   (*dont_touch = "true"*) reg [127:0] sifre_r;
   wire [127:0] sifre;
-
-  wire clk_deriv;
-  wire mmcm_locked;
   
-  reg[127:0] blok = { 8'h0, 8'h1, 8'h2, 8'h3, 8'h4, 8'h5, 8'h6, 8'h7, 8'h8, 8'h9, 8'hA, 8'hB, 8'hC, 8'hD, 8'hE, 8'hF };
+  reg[127:0] blok = { 8'h71, 8'h77, 8'h65, 8'h72, 8'h74, 8'h79, 8'h75, 8'h69, 8'h6f, 8'h70, 8'h61, 8'h73, 8'h64, 8'h66, 8'h67, 8'h68 };
   
   reg clk = 1'b0;
   reg rst = 1'b0;
@@ -43,7 +41,7 @@ module test_aes_engine(
     aes_engine aes_engine_i
   (
     .clk(clk),
-    .rst(rst | ~mmcm_locked),
+    .rst(rst),
     .anahtar(anahtar),
     .blok(blok),
     // Modul calismaya FIFO doldugunda baslayacak
