@@ -8,11 +8,11 @@ module keyexpansion(
     input clk,
     input rst,
     output reg [1407:0] out,
-    output reg finish
+    output finish
 );
     reg [10:0] i, j, k;
     reg [7:0] tmp[3:0], sboxin[3:0], rcon;
-    reg run;
+    reg run, done;
 
     wire [7:0] sboxout[3:0];
 
@@ -21,9 +21,11 @@ module keyexpansion(
     sbox tmp3 (.in(sboxin[2]), .out(sboxout[2]));
     sbox tmp4 (.in(sboxin[3]), .out(sboxout[3]));
 
+    assign finish = done;
+
     initial begin
         run <= 1'b0;
-        finish <= 1'b0;
+        done <= 1'b0;
         i <= 10'd4;
         rcon <= 8'd0;
         out = 1048'd0;
@@ -37,6 +39,7 @@ module keyexpansion(
         if (rst) begin
             run <= 1'b0;
             i <= 10'd4;
+            done <= 1'b0;
             rcon <= 8'd0;
         end else if (start && ~run) begin
             out = 1048'd0;
@@ -60,16 +63,16 @@ module keyexpansion(
                         sboxin[2] = tmp[3];
                         sboxin[3] = tmp[0];
                         case (i/4)
-                            8'd0: rcon = 8'h8D;
-                            8'd1: rcon = 8'h01;
-                            8'd2: rcon = 8'h02;
-                            8'd3: rcon = 8'h04;
-                            8'd4: rcon = 8'h08;
-                            8'd5: rcon = 8'h10;
-                            8'd6: rcon = 8'h20;
-                            8'd7: rcon = 8'h40;
-                            8'd8: rcon = 8'h80;
-                            8'd9: rcon = 8'h1B;
+                            8'd0: rcon  = 8'h8D;
+                            8'd1: rcon  = 8'h01;
+                            8'd2: rcon  = 8'h02;
+                            8'd3: rcon  = 8'h04;
+                            8'd4: rcon  = 8'h08;
+                            8'd5: rcon  = 8'h10;
+                            8'd6: rcon  = 8'h20;
+                            8'd7: rcon  = 8'h40;
+                            8'd8: rcon  = 8'h80;
+                            8'd9: rcon  = 8'h1B;
                             8'd10: rcon = 8'h36;
                         endcase
                     end else begin
@@ -94,7 +97,7 @@ module keyexpansion(
                 end
 
             end else begin
-                finish = 1'b1;
+                done = 1'b1;
             end
         end
     end

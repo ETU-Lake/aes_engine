@@ -16,6 +16,10 @@ module round (
     assign final = mixcolumns_out ^ key;
 
     always @ (posedge clk) begin
-        out <= final;
+        if (rst) begin
+            out <= 128'd0;
+        end else begin
+            out <= final;
+        end
     end
 endmodule

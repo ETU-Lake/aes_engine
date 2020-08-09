@@ -1,8 +1,6 @@
 `timescale 1ns / 1ps
 
-module test_aes_engine(
-
-    );
+module test_aes_engine();
 
   wire hazir;
   wire c_gecerli;
@@ -11,8 +9,7 @@ module test_aes_engine(
   wire [127:0] sifre;
 
   reg [127:0] blok, anahtar;
-  reg clk = 1'b0;
-  reg rst = 1'b0;
+  reg clk, rst, g_gecerli;
 
   aes_engine aes_engine_i (
     .clk(clk),
@@ -20,20 +17,22 @@ module test_aes_engine(
     .anahtar(anahtar),
     .blok(blok),
     // Modul calismaya FIFO doldugunda baslayacak
-    .g_gecerli(1'b1),
+    .g_gecerli(g_gecerli),
     .hazir(hazir),
     .sifre(sifre),
     .c_gecerli(c_gecerli)
   );
 
   initial begin
-      blok = 128'h0;
-      anahtar = 128'd1;
+      clk = 1'b0; rst = 1'b0; blok = 128'h0; g_gecerli = 1'b1; anahtar = 128'd1;
+      #2;
+      g_gecerli = 1'b0;
       #40;
-      anahtar = {8'h65, 8'h78, 8'h70, 8'h61, 8'h6E, 8'h64, 8'h20, 8'h33, 8'h32, 8'h2D, 8'h62, 8'h79, 8'h74, 8'h65, 8'h20, 8'h6B };
+      anahtar = { 8'h65, 8'h78, 8'h70, 8'h61, 8'h6E, 8'h64, 8'h20, 8'h33, 8'h32, 8'h2D, 8'h62, 8'h79, 8'h74, 8'h65, 8'h20, 8'h6B };
       blok = { 8'h71, 8'h77, 8'h65, 8'h72, 8'h74, 8'h79, 8'h75, 8'h69, 8'h6f, 8'h70, 8'h61, 8'h73, 8'h64, 8'h66, 8'h67, 8'h68 };
-      rst = 1'b1; #2; rst = 1'b0;
-      #80;
+      rst = 1'b1; #2; rst = 1'b0; #2;
+      g_gecerli = 1'b1; #2; g_gecerli = 1'b0;
+      #90;
       rst = 1'b1; #2; rst = 1'b0;
   end
 

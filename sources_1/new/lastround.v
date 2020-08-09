@@ -17,7 +17,11 @@ module lastround (
     shiftrows do_shiftrows(.state(subbytes_out), .out(shiftrows_out));
 
     always @ (posedge clk)
-        out <= shiftrows_out ^ key;
+        if (rst) begin
+            out = 128'd0;
+        end else begin
+            out <= shiftrows_out ^ key;
+        end
     begin
 
     end

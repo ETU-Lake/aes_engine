@@ -10,7 +10,7 @@ module mixcolumns(
 
     //always @ (posedge clk) begin
         //Her yeni saat sinyalinde enc_rowdaki degerleri kullanarak output olusturulur.
-       // out = {enc_row[3], enc_row[2], enc_row[1], enc_row[0]};
+        // out = {enc_row[3], enc_row[2], enc_row[1], enc_row[0]};
     //end
 
     function [7 : 0] gf_mult2(input [7 : 0] c); begin
@@ -23,9 +23,9 @@ module mixcolumns(
         end
     endfunction
 
-    always @ (state) begin: temp_mixCol
-      reg[7:0] b0, b1, b2, b3, temp,a0,a1,a2,a3, c0,c1,c2,c3,d0,d1,d2,d3;
-      reg[31:0] w[3:0];
+    always @ (state) begin: tmp_mixCol
+      reg [7:0] b0, b1, b2, b3, tmp, a0, a1, a2, a3, c0, c1, c2, c3, d0, d1, d2, d3;
+      reg [31:0] w [3:0];
       w[0] = state[31:0];
       w[1] = state[63:32];
       w[2] = state[95:64];
@@ -72,7 +72,7 @@ module mixcolumns(
       enc_row[3][23 : 16] = d0  ^ gf_mult2(d1)^ gf_mult3(d2) ^ d3;
       enc_row[3][15 : 8] = d0  ^ d1^ gf_mult2(d2) ^ gf_mult3(d3);
       enc_row[3][7:0] = gf_mult3(d0)  ^ d1^ d2 ^ gf_mult2(d3);
-      
+
       out = {enc_row[3], enc_row[2], enc_row[1], enc_row[0]};
     end
 endmodule
