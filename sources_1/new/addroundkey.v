@@ -22,12 +22,8 @@ module addroundkey(input [127:0] state, // State blok
         if (start)
         begin
             finish = 0;
-            ready = ~ready;
-            for (i = 0; i < 128; i = i + 1)
-                result_next[i] = state[i] ^ key[roundnumber * 128 + i];
-            ready = ~ready;
+            out = key[(1407-128*roundnumber)-:128] ^ state;
             finish = 1;
-            out = result_next;
         end
     end
 

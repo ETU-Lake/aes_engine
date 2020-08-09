@@ -25,6 +25,7 @@ module lastround(
         input rst,
         input [1407:0] key,
         input start,
+        input [3:0] roundnumber,
         input [127:0] state,
         output reg [127:0] out
     );
@@ -37,7 +38,7 @@ module lastround(
     
     subbytes sb(.state(state), .out(sb_out));
     shiftrows shrw(.state(sb_out), .out(shrw_out));
-    addroundkey addrk(.state(shrw_out), .key(key), .roundnumber(10), .start(1), .clk(clk), .rst(rst), .out(addrk_out), .finish(finish));
+    addroundkey addrk(.state(shrw_out), .key(key), .roundnumber(roundnumber), .start(start), .clk(clk), .rst(rst), .out(addrk_out), .finish(finish));
     
     always@(posedge clk)
         if (state && start) out <= addrk_out; 

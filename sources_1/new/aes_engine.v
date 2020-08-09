@@ -25,7 +25,7 @@ module aes_engine(
   genvar i;
 
   keyexpansion expander(.key(anahtar), .start(~finish1), .clk(clk), .rst(rst), .out(expanded), .finish(finish1)); // ensure run once
-  addroundkey addrk(.state(blok), .key(expanded), .roundnumber(0), .start(finish1), .clk(clk), .rst(rst), .out(states[0]), .finish(finish2));
+  addroundkey addrk(.state(blok), .key(expanded), .roundnumber(4'b0000), .start(finish1), .clk(clk), .rst(rst), .out(states[0]), .finish(finish2));
 
   
   generate for (i = 1; i < 10; i = i + 1)
@@ -34,6 +34,6 @@ module aes_engine(
   end
   endgenerate
   
-  lastround last(.clk(clk), .rst(rst), .start(finish2), .key(expanded), .state(states[9]), .out(states[10]));
+  lastround last(.clk(clk), .rst(rst), .start(finish2), .key(expanded), .state(states[9]), .out(states[10]), .roundnumber(4'b1010));
   
 endmodule

@@ -29,8 +29,6 @@ module test_aes_engine(
 
   wire hazir;
   wire c_gecerli;
-  (*dont_touch = "true"*) reg [6:0] c_count;
-  (*dont_touch = "true"*) reg [127:0] sifre_r;
   wire [127:0] sifre;
   
   reg[127:0] blok = { 8'h71, 8'h77, 8'h65, 8'h72, 8'h74, 8'h79, 8'h75, 8'h69, 8'h6f, 8'h70, 8'h61, 8'h73, 8'h64, 8'h66, 8'h67, 8'h68 };
