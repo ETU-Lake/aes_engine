@@ -14,10 +14,11 @@ module aes_engine (
     wire [1407:0] expanded;
     wire [127:0] states [0:10];
     wire key_expanded;
+    reg [127:0] first;
     reg [3:0] ctr;
     reg run, valid;
 
-    assign states[0] = blok ^ expanded[1407-:128];
+    assign states[0] = first;
     assign hazir = key_expanded & (ctr == 4'd0);
     assign sifre = states[10];
     assign c_gecerli = valid;
@@ -44,7 +45,8 @@ module aes_engine (
         if (rst) begin
             run <= 1'b0;
             ctr <= 4'd0;
-        end else if (key_expanded) begin
+            first <= 128'd0;
+        end else if (key_expanded && g_gecerli) begin
             run <= 1'b1;
         end
 
@@ -54,9 +56,11 @@ module aes_engine (
 
         if (g_gecerli && hazir) begin
             if (ctr == 4'd0) begin
-                ctr = 4'd1;
+                first = blok ^ expanded[1407-:128];
+                ctr <= 4'd1;
             end
         end
+
         if (run) begin
             $display("%d" , ctr);
             if (ctr == 4'd10) begin
