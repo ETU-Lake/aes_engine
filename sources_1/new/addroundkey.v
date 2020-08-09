@@ -19,7 +19,7 @@ module addroundkey(input [127:0] state, // State blok
     
     always@*
     begin
-        //if (start && ready && ~finish)
+        if (start)
         begin
             finish = 0;
             ready = ~ready;
