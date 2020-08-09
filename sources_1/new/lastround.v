@@ -1,26 +1,25 @@
 `timescale 1ns / 1ps
 
 module lastround (
-        input clk,
-        input rst,
-        input [127:0] key,
-        input [127:0] state,
-        output reg [127:0] out
+    input clk,
+    input rst,
+    input [127:0] key,
+    input [127:0] state,
+    output reg [127:0] out
 );
+    wire [127:0] subbytes_out, shiftrows_out, final;
 
-    wire finish;
+    subbytes do_subbytes (.state(state), .out(subbytes_out));
+    shiftrows do_shiftrows (.state(subbytes_out), .out(shiftrows_out));
 
-    wire [127:0] subbytes_out;
-    wire [127:0] shiftrows_out;
+    assign final = shiftrows_out ^ key;
 
-    subbytes do_subbytes(.state(state), .out(subbytes_out));
-    shiftrows do_shiftrows(.state(subbytes_out), .out(shiftrows_out));
-
+    /* Reset the output with signal. (The clock stops afterwards.) */
     always @ (rst) begin
         out <= 128'd0;
     end
 
     always @ (posedge clk) begin
-        out <= shiftrows_out ^ key;
+        out <= final;
     end
 endmodule
